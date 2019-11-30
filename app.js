@@ -1,6 +1,6 @@
 const http = require("http");
 const fs = require("fs");
-const port = 3443;
+const port = process.env.PORT || 3443;
 
 const server = http.createServer((req,res)=>{
     res.writeHead(200, { 'Content-Type': 'text/html' });
