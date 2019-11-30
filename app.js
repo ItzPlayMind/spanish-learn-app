@@ -1,23 +1,18 @@
-const http = require("http");
 const fs = require("fs");
 const port = process.env.PORT || 3443;
 
-const server = http.createServer((req,res)=>{
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    fs.readFile("index.html", (error, data)=>{
-        if(error){
-            res.writeHead(404);
-            res.write("Error: File not found!");
-        } else {
-            res.write(data);
-        }
-        res.end();
-    });
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require("socket.io")(http);
+
+app.get('/', function(req, res){
+    res.sendFile("index.html");
 });
 
-server.listen(port, (error)=>{
-    if(error)
-        console.log(error);
-    else
-        console.log("Started!");
+io.on("connection", (socket)=>{
+    console.log("A user joined!");
+});
+
+http.listen(port, function(){
+  console.log('listening on *: ',port);
 });
